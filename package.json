@@ -1,0 +1,34 @@
+{
+  "name": "scda",
+  "version": "0.0.0",
+  "description": "SCDA, a simple Static Code Dependency Analyzer (only for CoffeeScript ATM)",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loveencounterflow/scda.git"
+  },
+  "keywords": [
+    "static",
+    "code",
+    "analysis",
+    "dependencies"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveencounterflow/scda/issues"
+  },
+  "homepage": "https://github.com/loveencounterflow/scda#readme",
+  "dependencies": {
+    "cnd": "^9.2.1",
+    "coffeescript": "^2.5.1",
+    "glob": "^7.1.7",
+    "intertype": "^7.6.7",
+    "letsfreezethat": "^3.1.0",
+    "n-readlines": "^1.0.1",
+    "path": "^0.12.7"
+  }
+}
