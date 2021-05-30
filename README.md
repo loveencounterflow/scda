@@ -26,6 +26,8 @@
 * This is useful in building a 'stratified' chain of mixin modules.
 * When given a chain of dependencies, can display all (potential) calls where the dependency chain
   assumption is violated.
+* A better / more general model would be to group deppendencies and to allow calls within a group; this is
+  left for the future.
 
 # Shortcomings
 
