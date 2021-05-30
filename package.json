@@ -26,6 +26,7 @@
     "cnd": "^9.2.1",
     "coffeescript": "^2.5.1",
     "glob": "^7.1.7",
+    "icql-dba": "^6.0.0",
     "intertype": "^7.6.7",
     "letsfreezethat": "^3.1.0",
     "n-readlines": "^1.0.1",
