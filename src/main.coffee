@@ -37,15 +37,16 @@ declare 'sc_cfg', tests:
   "@isa_optional.nonempty_text x.prefix": ( x ) -> @isa_optional.nonempty_text x.prefix
   "@isa.list x.ignore_names":             ( x ) -> @isa.list x.ignore_names
   "@isa.list x.ignore_spaths":            ( x ) -> @isa.list x.ignore_spaths
+  "@isa.list x.dependencies":             ( x ) -> @isa.list x.dependencies
   "@isa.boolean x.verbose":               ( x ) -> @isa.boolean x.verbose
 
 #-----------------------------------------------------------------------------------------------------------
 defaults.sc_cfg =
   schema:             'scda'
   ignore_names:       []
-  ignore_spaths: []
+  ignore_spaths:      []
   verbose:            false
-
+  dependencies:       []
 
 #===========================================================================================================
 class @Scda
@@ -82,6 +83,10 @@ class @Scda
           spath       text unique not null primary key,
           path        text unique not null );
       -- ---------------------------------------------------------------------------------------------------
+      create table #{@_schema_i}.dependencies (
+          provider_spath  text unique not null primary key,
+          consumer_spath  text unique not null );
+      -- ---------------------------------------------------------------------------------------------------
       create table #{@_schema_i}.occurrences (
           spath       text    not null,
           lnr         integer not null,
@@ -101,6 +106,18 @@ class @Scda
       #     lnr         integer not null,
       #     line        text    not null,
       #   primary key ( spath, lnr ) );
+    #.......................................................................................................
+    @_add_dependencies()
+
+  #---------------------------------------------------------------------------------------------------------
+  _add_dependencies: ->
+    for provider_spath, idx in @cfg.dependencies
+      continue unless ( consumer_spath = @cfg.dependencies[ idx + 1 ] )?
+      @dba.run """
+        insert into #{@_schema_i}.dependencies ( provider_spath, consumer_spath )
+          values ( $provider_spath, $consumer_spath );""", \
+        { provider_spath, consumer_spath, }
+    return null
 
   #---------------------------------------------------------------------------------------------------------
   add_path: ( cfg ) ->
