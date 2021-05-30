@@ -15,7 +15,7 @@ whisper                   = CND.get_logger 'whisper',   badge
 echo                      = CND.echo.bind CND
 #...........................................................................................................
 PATH                      = require 'path'
-{ Dba }                   = require '../../../apps/icql-dba'
+{ Dba }                   = require 'icql-dba'
 Readlines                 = require 'n-readlines'
 glob                      = require 'glob'
 { freeze
