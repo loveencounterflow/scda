@@ -194,10 +194,16 @@ class @Scda
             @add_occurrence { spath, lnr, cnr, type, role, name, }
         #...................................................................................................
         catch error
-          throw error unless error.name is 'SyntaxError'
-          ### TAINT add to table `errors` or similar ###
-          warn "^4476^ skipping line #{lnr} of #{spath} because of syntax error: #{rpr line}"
-          continue
+          # debug '^42342^', error.name
+          # debug '^42342^', error.code
+          # debug '^42342^', error.message
+          if ( error.name is 'SyntaxError' ) or \
+            ### TAINT this is a bug in CS tokenizer, can't deal with line `.pipe ...` without prior context ###
+            ( error.name is 'TypeError' and error.message is "Cannot set property 'continuationLineIndent' of undefined" )
+            ### TAINT add to table `errors` or similar ###
+            warn "^4476^ skipping line #{lnr} of #{spath} because of syntax error: #{rpr line}"
+            continue
+          throw error
     #.......................................................................................................
     return null
 

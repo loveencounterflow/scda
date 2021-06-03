@@ -48,6 +48,7 @@ class @Tokenwalker
   constructor: ( cfg ) ->
     @cfg        = { defaults.tw_cfg..., cfg..., }
     validate.tw_cfg @cfg
+    # debug '^345387^', rpr @cfg.source
     def @cfg, 'source',   enumerable: false, value: @cfg.source
     def @,    'registry', enumerable: false, value: []
     @collector  = null
