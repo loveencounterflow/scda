@@ -20,9 +20,9 @@
   * (function and method) definitions, recording their locations
   * (function and method) calls, recording their locations
 * Can display *all* (potential) definition sites for all calls.
-* Accepts a chain of dependencies (in terms of module names) in the form of a list (with `[ 'A', 'B', ]`
-  indicating that `B` depends on `A`, thus, `A` should not call any method defined in `B`, but `B` can use
-  any method defined in `A`).
+* Accepts a chain of dependencies (in terms of module file names) in the form of a list (with `[ 'Main.js',
+  'X-mixin.js', ]` indicating that `Main.js` depends on `X-mixin.js`, thus,  `X-mixin.js` should not call
+  any method defined in  `Main.js`, but `Main.js` can use any method defined in `X-mixin.js`).
 * This is useful in building a 'stratified' chain of mixin modules.
 * When given a chain of dependencies, can display all (potential) calls where the dependency chain
   assumption is violated.
