@@ -1,6 +1,6 @@
 {
   "name": "scda",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "SCDA, a simple Static Code Dependency Analyzer (only for CoffeeScript ATM)",
   "main": "lib/main.js",
   "scripts": {
