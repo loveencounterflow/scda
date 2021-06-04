@@ -96,6 +96,26 @@ class @Scda
           role        text not null,
           name        text not null,
         primary key ( spath, lnr, cnr ) );
+      -- ---------------------------------------------------------------------------------------------------
+      create view #{@_schema_i}.level_violations as select
+            t1.spath      as def_spath,
+            t1.lnr        as def_lnr,
+            t2.spath      as call_spath,
+            t2.lnr        as call_lnr,
+            -- t1.cnr        as cnr,
+            t1.name       as name
+          from scda.occurrences as t1
+          join scda.occurrences as t2 on ( t1.name = t2.name )
+          where true
+            and ( t1.role = 'def' )
+            and ( t2.role = 'call' )
+            and ( t1.spath != t2.spath )
+            and not exists ( select 1 from scda.dependencies as d
+              where true
+                and d.provider_spath  = t1.spath
+                and d.consumer_spath  = t2.spath
+              limit 1 )
+          order by 1, 2, 3, 4;
       """
       # -- ---------------------------------------------------------------------------------------------------
       # create table #{@_schema_i}.directories (
@@ -209,6 +229,9 @@ class @Scda
           throw error
     #.......................................................................................................
     return null
+
+  #---------------------------------------------------------------------------------------------------------
+  walk_level_violations: -> @dba.query "select * from #{@_schema_i}.level_violations;"
 
 
 
