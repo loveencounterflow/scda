@@ -84,8 +84,9 @@ class @Scda
           path        text unique not null );
       -- ---------------------------------------------------------------------------------------------------
       create table #{@_schema_i}.dependencies (
-          provider_spath  text unique not null primary key,
-          consumer_spath  text unique not null );
+          provider_spath  text not null,
+          consumer_spath  text not null,
+          primary key ( provider_spath, consumer_spath ) );
       -- ---------------------------------------------------------------------------------------------------
       create table #{@_schema_i}.occurrences (
           spath       text    not null,
@@ -111,12 +112,14 @@ class @Scda
 
   #---------------------------------------------------------------------------------------------------------
   _add_dependencies: ->
-    for provider_spath, idx in @cfg.dependencies
-      continue unless ( consumer_spath = @cfg.dependencies[ idx + 1 ] )?
-      @dba.run """
-        insert into #{@_schema_i}.dependencies ( provider_spath, consumer_spath )
-          values ( $provider_spath, $consumer_spath );""", \
-        { provider_spath, consumer_spath, }
+    last_idx = @cfg.dependencies.length - 1
+    for consumer_spath, c_idx in @cfg.dependencies
+      for p_idx in [ c_idx + 1 .. last_idx ] by +1
+        provider_spath = @cfg.dependencies[ p_idx ]
+        @dba.run """
+          insert into #{@_schema_i}.dependencies ( consumer_spath, provider_spath )
+            values ( $consumer_spath, $provider_spath );""", \
+          { provider_spath, consumer_spath, }
     return null
 
   #---------------------------------------------------------------------------------------------------------
